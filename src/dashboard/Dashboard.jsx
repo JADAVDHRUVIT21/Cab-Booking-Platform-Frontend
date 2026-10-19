@@ -1,3 +1,4 @@
+
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiRequest } from "../services/api";
@@ -224,10 +225,7 @@ export default function Dashboard() {
 
       const updatedStatus = String(result?.status || "").toUpperCase();
 
-      if (
-        action === "accept" &&
-        updatedStatus !== "ACCEPTED"
-      ) {
+      if (action === "accept" && updatedStatus !== "ACCEPTED") {
         throw new Error(
           "The server did not confirm that the ride was accepted. Refresh the rides list to check its status."
         );
@@ -565,18 +563,24 @@ export default function Dashboard() {
               </span>
             </Link>
 
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-400/10 text-2xl">
+            {/* Updated: this card now opens the Review & Rating page. */}
+            <Link
+              to="/reviews"
+              className="group rounded-2xl border border-slate-800 bg-slate-900 p-6 transition hover:-translate-y-1 hover:border-amber-400/60 hover:bg-slate-800"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-400/10 text-2xl transition group-hover:scale-110">
                 ⭐
               </span>
-              <h2 className="mt-5 text-xl font-bold">Reviews and ratings</h2>
+              <h2 className="mt-5 text-xl font-bold">
+                Reviews and ratings
+              </h2>
               <p className="mt-2 text-sm leading-6 text-slate-400">
                 Rate completed rides and share your experience.
               </p>
-              <span className="mt-5 inline-block text-sm font-semibold text-slate-500">
-                Available after a ride
+              <span className="mt-5 inline-block text-sm font-bold text-amber-400">
+                Give a review →
               </span>
-            </div>
+            </Link>
           </section>
         )}
 

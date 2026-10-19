@@ -1,11 +1,13 @@
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Dashboard from "./dashboard/Dashboard";
 import BookRide from "./dashboard/BookRide";
 import RideHistory from "./dashboard/RideHistory";
 import RideDetails from "./dashboard/RideDetails";
+import ReviewRating from "./dashboard/ReviewRating";
 
 function Home() {
   return (
@@ -82,10 +84,21 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/book-ride" element={<BookRide />} />
         <Route path="/ride-history" element={<RideHistory />} />
         <Route path="/ride-history/:id" element={<RideDetails />} />
+
+        {/* Review & Rating page */}
+        <Route path="/reviews" element={<ReviewRating />} />
+
+        {/* Keep the legacy URL working too */}
+        <Route
+          path="/review-rating"
+          element={<Navigate to="/reviews" replace />}
+        />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
