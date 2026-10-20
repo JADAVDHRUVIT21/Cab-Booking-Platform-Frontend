@@ -1,5 +1,8 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
+const API_BASE_URL = (
+  import.meta.env.VITE_API_URL ||
+  "https://cab-booking-platform-7uul.onrender.com"
+).replace(/\/$/, "");
 
 export async function apiRequest(
   endpoint,
@@ -17,16 +20,21 @@ export async function apiRequest(
     requestHeaders.Authorization = `Bearer ${token}`;
   }
 
+  const normalizedEndpoint = endpoint.replace(/^\//, "");
+
   const response = await fetch(
-    `${API_BASE_URL.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`,
+    `${API_BASE_URL}/${normalizedEndpoint}`,
     {
       method,
       headers: requestHeaders,
-      ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
+      ...(body !== undefined
+        ? { body: JSON.stringify(body) }
+        : {}),
     }
   );
 
   const contentType = response.headers.get("content-type") || "";
+
   const data = contentType.includes("application/json")
     ? await response.json()
     : await response.text();
@@ -38,7 +46,9 @@ export async function apiRequest(
         : data || "Request failed";
 
     throw new Error(
-      typeof message === "string" ? message : JSON.stringify(message)
+      typeof message === "string"
+        ? message
+        : JSON.stringify(message)
     );
   }
 
